@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from '../store';
 // 타입스크립트에서는 타입스크립트가 추론을 못하면 개발자가 직접 타입을 지정 annotate 해주어야 한다
 // const logger = useSelector(state => state.logger);
 
-export const useTypeSelector : TypedUseSelectorHook<RootState> = useSelector
+export const useTypedSelector : TypedUseSelectorHook<RootState> = useSelector
 export const useTypedDispatch = () => useDispatch<AppDispatch>();
 
 

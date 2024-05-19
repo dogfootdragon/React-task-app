@@ -1,8 +1,64 @@
-import React from 'react'
+import React, { useState, FC, useRef } from 'react'
+import { useTypedSelector } from '../../hooks/redux';
+import SideForm from './SideForm/SideForm';
+import { FiPlusCircle } from 'react-icons/fi';
+import { addButton, addSection, boardItem, boardItemActive, container, title } from './BoardList.css';
+import clsx from 'clsx';
 
-const BoardList = () => {
+type TBoardListProps = {
+  activeBoardId: string;
+  setActiveBoardId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const BoardList: FC<TBoardListProps> = ({
+  activeBoardId,
+  setActiveBoardId
+}) => {
+
+  // const boards = useTypedSelector(state => state.boards.boardArray); 
+  const {boardArray} = useTypedSelector(state => state.boards); // 구조분해할당
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const inputref = useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+    setIsFormOpen(!isFormOpen);
+    setTimeout(() => {
+      inputref.current?.focus(); // ? null이 아닐때 포커스
+    },0);
+  }
+
   return (
-    <div>BoardList</div>
+    <div className={container}>
+      <div className={title}>
+        게시판:
+      </div>
+      {boardArray.map((board, index) => (
+        <div key={board.boardId}
+          onClick={() => setActiveBoardId(boardArray[index].boardId)}
+          className={
+            clsx(
+              {
+                [boardItemActive]: boardArray.findIndex(b => b.boardId === activeBoardId) === index,
+              },
+              {
+                [boardItem]: boardArray.findIndex(b => b.boardId === activeBoardId) !== index
+              }
+            )
+          }
+        >
+          <div>
+            {board.boardName}
+          </div>
+        </div>
+      ))}
+      <div className={addSection}>
+        {
+          isFormOpen
+          ? <SideForm inputref={inputref} setIsFormOpen={setIsFormOpen} />
+          : <FiPlusCircle className={addButton} onClick={handleClick}/>
+        }
+      </div>
+    </div>
   )
 }
 
