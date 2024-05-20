@@ -4,6 +4,7 @@ import { icon, input, sideForm } from './SideForm.css';
 import { useTypedDispatch } from '../../../hooks/redux';
 import { addBoard } from '../../../store/slices/boardsSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { addLog } from '../../../store/slices/loggerSlice';
 
 type TSideFormPorps = {
   setIsFormOpen: React.Dispatch<React.SetStateAction<boolean>>;
